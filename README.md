@@ -21,7 +21,7 @@
 ### 1. 克隆仓库
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/jingyu525/personal-agent.git
 cd personal-agent
 ```
 
