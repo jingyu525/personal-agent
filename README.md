@@ -130,6 +130,24 @@ personal-agent/
 export PERSONAL_AGENT_HOME=~/personal-agent
 ```
 
+### 快捷命令别名
+
+为了提高使用效率，可以在 `~/.zshrc` 或 `~/.bashrc` 中添加以下别名：
+
+```bash
+# AI 模型快捷命令
+alias ai-local="ollama run qwen2.5:14b"     # 隐私任务
+alias ai-fast="ollama run llama3.2:3b"       # 快速响应
+alias ai-code="claude"                        # 代码任务（Claude Code）
+
+# 个人助手快捷命令
+alias kb="cd ~/personal-agent && python3 search.py"
+alias today="cat ~/personal-agent/todos/today.md"
+alias inbox="open ~/personal-agent/knowledge/inbox/"
+```
+
+添加后运行 `source ~/.zshrc` 或 `source ~/.bashrc` 生效。
+
 ### 依赖工具
 
 部分功能需要额外安装：
