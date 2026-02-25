@@ -54,3 +54,8 @@ Thumbs.db
 *.tmp
 *.log
 /tmp/
+
+# 测试文件
+test_*.py
+test_*.sh
+ollama_ctx_*
