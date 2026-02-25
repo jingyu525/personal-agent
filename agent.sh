@@ -20,12 +20,16 @@ case "$1" in
     
     while [[ $# -gt 0 ]]; do
       case "$1" in
-        --fast)
+        -f|--fast)
           model_mode="fast"
           shift
           ;;
-        --quality)
+        -q|--quality)
           model_mode="quality"
+          shift
+          ;;
+        -h|--high)
+          model_mode="high"
           shift
           ;;
         *)
@@ -87,11 +91,12 @@ PROMPT
     echo "Usage: agent [ask|add-note|todo|plan|review|sync|warmup|config] [args]"
     echo ""
     echo "ask 命令选项:"
-    echo "  --fast      使用快速模型 (llama3.2:3b)"
-    echo "  --quality   使用质量优先模型 (qwen2.5:14b)"
+    echo "  -f, --fast      使用快速模型 (llama3.2:3b)"
+    echo "  -q, --quality   使用质量模型 (qwen2.5:7b) [默认]"
+    echo "  -h, --high      使用高质量模型 (qwen2.5:14b)"
     echo ""
     echo "环境变量:"
-    echo "  AGENT_MODEL   设置默认模型 (fast/quality 或模型名称)"
+    echo "  AGENT_MODEL     设置默认模型 (fast/quality/high 或模型名称)"
     echo "  OLLAMA_BASE_URL 设置 Ollama 服务地址"
     ;;
 esac

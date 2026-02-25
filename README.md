@@ -71,9 +71,10 @@ python3 kb_init.py
 ### 智能助手
 
 ```bash
-./agent.sh ask <问题>           # 知识库增强问答（默认模型）
-./agent.sh ask --fast <问题>    # 使用快速模型（响应更快）
-./agent.sh ask --quality <问题> # 使用质量模型（回答更准确）
+./agent.sh ask <问题>           # 知识库增强问答（默认模型 qwen2.5:7b）
+./agent.sh ask -f <问题>        # 使用快速模型（响应更快）
+./agent.sh ask -q <问题>        # 使用质量模型
+./agent.sh ask -h <问题>        # 使用高质量模型（回答更准确）
 ./agent.sh add-note <标题>      # 快速添加笔记
 ./agent.sh todo <待办事项>      # 添加待办
 ./agent.sh plan                 # 生成今日计划
@@ -85,18 +86,20 @@ python3 kb_init.py
 
 ### 模型配置
 
-项目支持两种模型模式，可在速度和质量之间权衡：
+项目支持三种模型模式，可在速度和质量之间权衡：
 
-| 模式 | 模型 | 特点 |
-|------|------|------|
-| `--fast` | llama3.2:3b | 响应快速，适合简单问题 |
-| `--quality` | qwen2.5:14b | 回答准确，适合复杂问题 |
+| 选项 | 短选项 | 模型 | 特点 |
+|------|--------|------|------|
+| `--fast` | `-f` | llama3.2:3b | 响应快速，适合简单问题 |
+| `--quality` | `-q` | qwen2.5:7b | 平衡速度与质量 [默认] |
+| `--high` | `-h` | qwen2.5:14b | 回答准确，适合复杂问题 |
 
 首次使用前需要下载模型：
 
 ```bash
 ollama pull llama3.2:3b      # 快速模型
-ollama pull qwen2.5:14b      # 质量模型
+ollama pull qwen2.5:7b       # 质量模型（默认）
+ollama pull qwen2.5:14b      # 高质量模型
 ollama pull nomic-embed-text # 嵌入模型
 ```
 
@@ -105,6 +108,7 @@ ollama pull nomic-embed-text # 嵌入模型
 ```bash
 export AGENT_MODEL=fast     # 默认使用快速模型
 export AGENT_MODEL=quality  # 默认使用质量模型
+export AGENT_MODEL=high     # 默认使用高质量模型
 ```
 
 ### MCP 服务器配置
