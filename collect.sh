@@ -86,14 +86,44 @@ collect_screenshot() {
     echo "✅ 截图已 OCR"
 }
 
+collect_openclaw_session() {
+    session_file="$1"
+    if [ ! -f "$session_file" ]; then
+        echo "❌ 文件不存在: $session_file"
+        exit 1
+    fi
+    
+    title=$(basename "$session_file" .md)
+    
+    # 创建带元数据的文件
+    {
+        echo "---"
+        echo "source: openclaw"
+        echo "type: conversation"
+        echo "date: $(date +%Y-%m-%d)"
+        echo "title: $title"
+        echo "---"
+        echo ""
+        cat "$session_file"
+    } > "$INBOX/${TIMESTAMP}_openclaw_${title}.md"
+    
+    echo "✅ OpenClaw对话已保存: ${TIMESTAMP}_openclaw_${title}.md"
+    
+    # 自动重建索引
+    echo "🔄 重建知识库索引..."
+    cd "$SCRIPT_DIR" && python3 ingest.py >/dev/null 2>&1
+    echo "✅ 知识库索引已更新"
+}
+
 # 路由分发
 case "$1" in
-    clip|c)     collect_clipboard "$2" ;;
-    url|u)      collect_url "$2" ;;
-    pdf|p)      collect_pdf "$2" ;;
-    word|w)     collect_docx "$2" ;;
-    audio|a)    collect_audio "$2" ;;
-    shot|s)     collect_screenshot "$2" ;;
+    clip|c)      collect_clipboard "$2" ;;
+    url|u)       collect_url "$2" ;;
+    pdf|p)       collect_pdf "$2" ;;
+    word|w)      collect_docx "$2" ;;
+    audio|a)     collect_audio "$2" ;;
+    shot|s)      collect_screenshot "$2" ;;
+    openclaw|oc) collect_openclaw_session "$2" ;;
     *)
         echo "用法:"
         echo "  collect clip [标题]        # 剪贴板"
@@ -102,5 +132,6 @@ case "$1" in
         echo "  collect word <文件路径>    # Word"
         echo "  collect audio <文件路径>   # 录音转录"
         echo "  collect shot               # 截图 OCR"
+        echo "  collect openclaw <文件>    # OpenClaw对话记录"
         ;;
 esac
